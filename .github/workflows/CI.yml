@@ -54,9 +54,8 @@ jobs:
         SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
       uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
       with:
-        scanMetadataReportFile: /target/sonar/report-task.txt
-    - name: pad
-      run: pwd
+        scanMetadataReportFile: ${WORKSPACE}/target/sonar/report-task.txt
+  
   SCA:
     needs: SAST
     runs-on: ubuntu-latest
