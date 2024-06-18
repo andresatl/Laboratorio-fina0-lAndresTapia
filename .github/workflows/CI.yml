@@ -39,7 +39,7 @@ jobs:
         node-version: '16'
 
     - name: Install depencies
-      #run: npm install
+      run: npm install
 
     - name: Build
       run: npm run build
