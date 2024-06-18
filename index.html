@@ -19,15 +19,5 @@
   <body style="margin: 0">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <h1>VULNERABILIDAD!</h1>
-  
-  <!-- Vulnerable code -->
-  <div id="userInputContainer"></div>
-
-  <script>
-    // Imagine userInput came from a user form input or a database
-    var userInput = '<script>alert("Vulnerable!");</script>';
-    document.getElementById('userInputContainer').innerHTML = userInput;
-  </script>
   </body>
 </html>
