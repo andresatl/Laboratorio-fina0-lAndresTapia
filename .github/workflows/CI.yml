@@ -5,7 +5,7 @@ on:
       - feature-laboratorio-final-AndresTapia
 
 jobs:
-  SAST:
+  Buildapp:
     runs-on: ubuntu-latest
     steps:
 
@@ -29,5 +29,17 @@ jobs:
 
     - name: Run tests
       run: npm test
+  
+  SAST:
+    needs: Buildapp
+    runs-on: ubuntu-latest
+    steps:
+
+    #- name: Set up JDK 17
+      #uses: actions/setup-java@v2 
+      #with:
+        #java-version: '17'
+    - name: Checkout code
+      uses: actions/checkout@v4
         
   
