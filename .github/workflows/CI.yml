@@ -43,14 +43,11 @@ jobs:
 
     - name: Build
       run: npm run build
-
+      
     - name: Analisis SonarCloud
       env:
         SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
-      run: |
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.organization=andresatl \
-          -Dsonar.projectKey=andresatl_Laboratorio-fina0-lAndresTapia
+      run: sonar-scanner
 
   SCA:
     needs: SAST
