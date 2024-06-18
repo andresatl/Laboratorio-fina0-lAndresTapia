@@ -48,8 +48,8 @@ jobs:
       env:
         SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
       run: |
-        sonar-scanner
         npm install -g sonarcloud
+        sonar-scanner
 
   SCA:
     needs: SAST
