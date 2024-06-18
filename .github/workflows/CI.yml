@@ -38,11 +38,11 @@ jobs:
       with:
         node-version: '16'
 
-    #- name: Install depencies
+    - name: Install depencies
       #run: npm install
 
-    #- name: Build
-      #run: npm run build
+    - name: Build
+      run: npm run build
       
     - name: Analisis SonarCloud
       uses: SonarSource/sonarcloud-github-action@master
