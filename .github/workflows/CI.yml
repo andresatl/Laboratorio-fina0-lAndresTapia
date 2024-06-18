@@ -45,11 +45,9 @@ jobs:
       run: npm run build
       
     - name: Analisis SonarCloud
+      uses: SonarSource/sonarcloud-github-action@maste
       env:
         SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
-      run: |
-        npm install -g sonarcloud
-        sonar-scanner
 
   SCA:
     needs: SAST
