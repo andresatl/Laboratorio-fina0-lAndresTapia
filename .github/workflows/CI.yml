@@ -83,16 +83,13 @@ jobs:
     - name: Build
       run: npm run build
 
-    - name: Print Repository Name
-      run: echo "Repository name:${{ github.event.repository.name }}"
-
     - name: Dependency Check
       uses: dependency-check/Dependency-Check_Action@main
       env:
         JAVA_HOME: /opt/jdk
       id: Depcheck
       with:
-        project: 'Laboratorio-fina0-lAndresTapia'
+        project: '{{ github.event.repository.name }}'
         path: '.'
         format: 'HTML'
         out: 'reports'
