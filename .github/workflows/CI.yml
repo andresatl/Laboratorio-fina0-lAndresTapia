@@ -92,7 +92,7 @@ jobs:
         JAVA_HOME: /opt/jdk
       id: Depcheck
       with:
-        project: '${{ github.event.repository.name }}'
+        project: 'Laboratorio-fina0-lAndresTapia'
         path: '.'
         format: 'HTML'
         out: 'reports'
