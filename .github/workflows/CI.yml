@@ -83,8 +83,8 @@ jobs:
     - name: Build
       run: npm run build
 
-    - name: List files in workspace
-      run: ls -l /github/workspace
+    - name: Print Repository Name
+      run: echo "Repository name:${{ github.event.repository.name }}"
 
     - name: Dependency Check
       uses: dependency-check/Dependency-Check_Action@main
