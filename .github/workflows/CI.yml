@@ -78,7 +78,9 @@ jobs:
         node-version: '16'
 
     - name: Install depencies
-      run: npm install
+      run: |
+        npm install
+        yarn install
 
     - name: Build
       run: npm run build
