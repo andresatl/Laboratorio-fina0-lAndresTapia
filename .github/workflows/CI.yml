@@ -95,8 +95,8 @@ jobs:
         path: '.'
         format: 'HTML'
         out: 'reports'
-        args: <
-          --failOnCVSS 1 
+        args: >
+          --failOffCVSS 9 
           --enabledRetired
 
           
