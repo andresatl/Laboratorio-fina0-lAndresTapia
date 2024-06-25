@@ -119,7 +119,6 @@ jobs:
       uses: docker/login-action@v3.0.0
       env:
         SONAR_TOKEN: ${{ secrets.DOCKER_PASSWORD }}
-      with:
-        username: ${{ secrets.DOCKER_USER }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+
         
