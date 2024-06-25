@@ -117,8 +117,7 @@ jobs:
 
     - name: Docker Login
       uses: docker/login-action@v3.0.0
-      env:
-        password: ${{ secrets.DOCKER_PASSWORD }}
       with:
         username: andresatl
+        password: ${{ secrets.DOCKER_PASSWORD }}
         
