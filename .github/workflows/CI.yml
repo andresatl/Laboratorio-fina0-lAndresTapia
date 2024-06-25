@@ -121,4 +121,15 @@ jobs:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v3
+
+    - name: Docker Build 
+      run: |
+        docker build -t andresatl/finalat-devsecops:latest .
+    
+    - name: Docker Push 
+      run: |
+        docker push andresatl/finalat-devsecops:latest
+
         
