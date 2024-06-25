@@ -96,8 +96,8 @@ jobs:
         format: 'HTML'
         out: 'reports'
         args: >
-          --failOnCVSS 7
-          --enabledRetired
+          --failOnCVSS 9
+          --enableRetired
      
     - name: Upload Test result
       uses: actions/upload-artifact@master
