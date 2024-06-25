@@ -104,3 +104,21 @@ jobs:
       with:
         name: Depcheck report
         path: ${{github.workspace}}/reports
+
+# ----------------- Docker Build Image ----------------------------------------
+  
+  DockerBuild:
+    needs: SCA
+    runs-on: self-hosted
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Docker Login
+      uses: docker/login-action@v3.0.0
+      env:
+        password: ${{ secrets.DOCKER_PASSWORD }}
+      with:
+        username: andresatl
+        
