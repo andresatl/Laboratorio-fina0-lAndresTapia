@@ -120,5 +120,6 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.DOCKER_PASSWORD }}
       with:
-        username: andresatl
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
         
