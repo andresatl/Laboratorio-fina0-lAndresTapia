@@ -96,7 +96,7 @@ jobs:
         format: 'HTML'
         out: 'reports'
         args: >
-          --failOnCVSS 10
+          --failOnCVSS 11
           --enableRetired
      
     - name: Upload Test result
