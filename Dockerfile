@@ -16,6 +16,25 @@
 #EXPOSE 80
 #ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
+# Use Alpine Linux 3.18.4 as the base image
 FROM alpine:3.18.4
-ADD file:756183bba9c7f4593c2b216e98e4208b9163c4c962ea0837ef88bd917609d001 in /
-CMD ["/bin/sh"]
+
+# Update package lists and install necessary packages
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache \
+        bash \
+        curl \
+        ca-certificates \
+    && \
+    update-ca-certificates
+
+# Add your application-specific installation and configuration steps here
+# For example, installing additional packages, copying application files, etc.
+
+# Clean up unnecessary files to reduce image size
+RUN rm -rf /var/cache/apk/*
+
+# Set default command or entrypoint for the container
+CMD ["sh"]
+
