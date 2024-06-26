@@ -135,7 +135,7 @@ jobs:
       uses: PaloAltoNetworks/prisma-cloud-scan@v1.6.5
       with:
     # URL of your Prisma Cloud Compute Console
-        pcc_console_url:: https://us-east1.cloud.twistlock.com/us-1-113035073
+        pcc_console_url: https://us-east1.cloud.twistlock.com/us-1-113035073
     # Username of a user with the CI user role
         pcc_user: fa4389d3-e013-48bd-9319-70c825869c45
     # Password of a user with the CI user role
