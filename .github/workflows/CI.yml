@@ -137,9 +137,9 @@ jobs:
     # URL of your Prisma Cloud Compute Console
         pcc_console_url: https://us-east1.cloud.twistlock.com/us-1-113035073
     # Username of a user with the CI user role
-        pcc_user: fa4389d3-e013-48bd-9319-70c825869c45
+        pcc_user: ${{ secrets.pcc_user }}
     # Password of a user with the CI user role
-        pcc_pass: 65IrymZjvp0oSqd/uBOHyOoIH44=
+        pcc_pass: ${{ pcc_pass }}
     # Name (or ID) of the image to be scanned
         image_name: andresatl/pruebavul:latest
     # Tenant project context for the command          
