@@ -137,9 +137,9 @@ jobs:
     # URL of your Prisma Cloud Compute Console
         pcc_console_url:: ${{ secrets.pcc_console_url }}
     # Username of a user with the CI user role
-        pcc_token: ${{ secrets.pcc_token }}
+        PCC_USER: ${{ secrets.PCC_USER }}
     # Password of a user with the CI user role
-        #pcc_pass: ${{ secrets.pcc_pass }}
+        PCC_PASS: ${{ secrets.PCC_PASS }}
     # Name (or ID) of the image to be scanned
         image_name: andresatl/pruebavul:latest
     # Tenant project context for the command          
