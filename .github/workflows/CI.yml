@@ -133,16 +133,13 @@ jobs:
   # You may pin to the exact commit or the version.
   # uses: PaloAltoNetworks/prisma-cloud-scan@85c672286d19de64fb4d2277b532df64023d168a
       uses: PaloAltoNetworks/prisma-cloud-scan@v1.6.5
-      env:
-        PCC_USER: ${{ secrets.PCC_USER }}
-        PCC_TOKEN: ${{ secrets.PCC_TOKEN }}
       with:
     # URL of your Prisma Cloud Compute Console
-        pcc_console_url: ${{ secrets.PCC_CONSOLE_URL }}
+        pcc_console_url:: ${{ secrets.pcc_console_url }}
     # Username of a user with the CI user role
-        #pcc_user: ${{ secrets.PCC_USER }}
+        pcc_user: ${{ secrets.pcc_user }}
     # Password of a user with the CI user role
-        #pcc_pass: ${{ secrets.PCC_TOKEN }}
+        pcc_pass: ${{ secrets.pcc_pass }}
     # Name (or ID) of the image to be scanned
         image_name: andresatl/pruebavul:latest
     # Tenant project context for the command          
