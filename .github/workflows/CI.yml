@@ -124,20 +124,17 @@ jobs:
     - name: Set up Docker
       uses: docker/setup-buildx-action@v3
 
-    - name: Docker pull
+
+    - name: Docker Build 
       run: |
-        docker pull alpine:3.18.4
+        docker build -t andresatl/pruebavul:latest .
 
-    #- name: Docker Build 
-      #run: |
-        #docker build -t andresatl/pruebavul:latest .
-
-    #- name: Run Trivy vulnerability scanner
-      #uses: aquasecurity/trivy-action@master
-      #with:
-        #image-ref: 'andresatl/pruebavul:latest'
-        #ignore-unfixed: true 
-        #format: 'table' 
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'andresatl/pruebavul:latest'
+        ignore-unfixed: true 
+        format: 'table' 
     
     #- name: Docker Push 
       #run: |
