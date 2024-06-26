@@ -19,16 +19,6 @@
 # Use Alpine Linux 3.18.4 as the base image
 FROM alpine:3.18.4
 
-# Update package lists and install necessary packages
-RUN apk update && \
-    apk upgrade && \
-    apk add --no-cache \
-        bash \
-        curl \
-        ca-certificates \
-    && \
-    update-ca-certificates
-
 # Add your application-specific installation and configuration steps here
 # For example, installing additional packages, copying application files, etc.
 
@@ -36,5 +26,5 @@ RUN apk update && \
 RUN rm -rf /var/cache/apk/*
 
 # Set default command or entrypoint for the container
-CMD ["sh"]
+CMD ["/bin/sh"]
 
