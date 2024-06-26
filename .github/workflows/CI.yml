@@ -137,7 +137,7 @@ jobs:
     # URL of your Prisma Cloud Compute Console
         pcc_console_url: ${{ secrets.PCC_CONSOLE_URL }}
     # Username of a user with the CI user role
-        pcc_user: gitlab
+        pcc_user: fa45322b-2cd1-489c-8b53-cda4c5b0ea23
     # Password of a user with the CI user role
         pcc_pass: ${{ secrets.PCC_TOKEN }}
     # Name (or ID) of the image to be scanned
