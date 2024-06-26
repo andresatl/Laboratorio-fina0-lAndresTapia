@@ -139,7 +139,7 @@ jobs:
     # Username of a user with the CI user role
         pcc_user: ${{ secrets.pcc_user }}
     # Password of a user with the CI user role
-        pcc_pass: ${{ pcc_pass }}
+        pcc_pass: ${{ secrets.pcc_pass }}
     # Name (or ID) of the image to be scanned
         image_name: andresatl/pruebavul:latest
     # Tenant project context for the command          
