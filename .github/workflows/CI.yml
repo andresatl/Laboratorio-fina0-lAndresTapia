@@ -129,12 +129,27 @@ jobs:
       run: |
         docker build -t andresatl/pruebavul:latest .
 
-    - name: Run Trivy vulnerability scanner
-      uses: aquasecurity/trivy-action@master
+    - name: Prisma Cloud Scan
+  # You may pin to the exact commit or the version.
+  # uses: PaloAltoNetworks/prisma-cloud-scan@85c672286d19de64fb4d2277b532df64023d168a
+      uses: PaloAltoNetworks/prisma-cloud-scan@v1.6.5
       with:
-        image-ref: 'andresatl/pruebavul:latest'
-        ignore-unfixed: true 
-        format: 'table' 
+    # URL of your Prisma Cloud Compute Console
+        pcc_console_url: ${{ secrets.PCC_CONSOLE_URL }}
+    # Username of a user with the CI user role
+        pcc_user: gitlab
+    # Password of a user with the CI user role
+        pcc_pass: ${{ secrets.PCC_TOKEN }}
+    # Name (or ID) of the image to be scanned
+        image_name: andresatl/pruebavul:latest
+    # Tenant project context for the command          
+
+    #- name: Run Trivy vulnerability scanner
+      #uses: aquasecurity/trivy-action@master
+      #with:
+        #image-ref: 'andresatl/pruebavul:latest'
+        #ignore-unfixed: true 
+        #format: 'table' 
     
     #- name: Docker Push 
       #run: |
