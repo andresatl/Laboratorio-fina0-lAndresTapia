@@ -16,6 +16,6 @@
 #EXPOSE 80
 #ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
-FROM scratch
-ADD alpine-minirootfs-3.18.5-x86_64.tar.gz /
+FROM alpine:3.18.4
+ADD file:756183bba9c7f4593c2b216e98e4208b9163c4c962ea0837ef88bd917609d001 in /
 CMD ["/bin/sh"]
