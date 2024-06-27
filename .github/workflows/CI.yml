@@ -126,7 +126,7 @@ jobs:
 
     - name: Docker Build 
       run: |
-        docker build -t andresatl/pruebavul:latest .
+        docker build -t andresatl/finalat-devsecops:latest .
 #-------------------- Docker Scan ------------------------------------------
     - name: Prisma Cloud Scan
       uses: PaloAltoNetworks/prisma-cloud-scan@v1.6.5
@@ -134,12 +134,11 @@ jobs:
         pcc_console_url: https://us-east1.cloud.twistlock.com/us-1-113035073
         pcc_user: ${{ secrets.pcc_user }}
         pcc_pass: ${{ secrets.pcc_pass }}
-        image_name: andresatl/pruebavul:latest 
+        image_name: andresatl/finalat-devsecops:latest 
 
     - name: Docker Push 
       run: |
         docker push andresatl/finalat-devsecops:latest
-
 
     #- name: Run Trivy vulnerability scanner
       #uses: aquasecurity/trivy-action@master
@@ -148,7 +147,7 @@ jobs:
         #ignore-unfixed: true 
         #format: 'table' 
 #-------------------- DEPLOY-DAST------------------------------------------  
-  DAST:
+  Deploy-DAST:
       needs: DockerBuild-SCAN
       runs-on: ubuntu-latest
       steps:
@@ -158,7 +157,7 @@ jobs:
         
       - name: Start Docker
         run: |
-          docker run -d --name finalat-devsecops -p 8081:80 andresatl/finalat-devsecops:latest
+          docker run -d -p 8081:80 andresatl/finalat-devsecops:latest
           
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.12.0
