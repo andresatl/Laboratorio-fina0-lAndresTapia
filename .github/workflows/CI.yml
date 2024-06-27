@@ -146,58 +146,31 @@ jobs:
         #image-ref: 'andresatl/pruebavul:latest'
         #ignore-unfixed: true 
         #format: 'table' 
-#-------------------- DEPLOY-DAST------------------------------------------  
-  Deploy-DAST:
+#-------------------- DEPLOY------------------------------------------  
+  DeployMiniKube:
       needs: DockerBuild-SCAN
-      runs-on: ubuntu-latest
+      runs-on: self-hosted
       steps:
+        - name: Clonacion de repositorio para deploy
+          uses: actions/checkout@v4
+        - name: Despliegue local
+          run: |
+            kubectl apply -f deploy.yaml
+            
+#-------------------- DAST------------------------------------------  
 
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Start Docker
-        run: |
-          docker run -d -p 8081:80 andresatl/finalat-devsecops:latest
-          
-      - name: ZAP Scan
-        uses: zaproxy/action-baseline@v0.12.0
-        with:
-          target: http://localhost:8081
-          allow_issue_writing: false
-          artifact_name: 'Zap Report'
-          fail_action: true #Break Pipeline
-#-------------------- Docker Scan ------------------------------------------
-
-  #DockerScan:
-    #needs: DockerBuild
-    #runs-on: ubuntu-latest
+  #DAST:
+    #needs: DeployMiniKube
+    #runs-on: self-hosted
     #steps:
+      #- name: ZAP Scan
+        #uses: zaproxy/action-baseline@v0.12.0
+        #with:
+          #target: http://localhost:8081
+          #allow_issue_writing: false
+          #artifact_name: 'Zap Report'
+          #fail_action: true #Break Pipeline
 
-    #- name: Docker Login
-      #uses: docker/login-action@v3.0.0
-      #with:
-        #username: ${{ secrets.DOCKER_USER }}
-       # password: ${{ secrets.DOCKER_PASSWORD }}
-
-    #- name: Pull de la Imagen Docker
-      #run: | 
-        #docker pull andresatl/finalat-devsecops:latest
-
-    #- name: Run Trivy vulnerability scanner
-     # uses: aquasecurity/trivy-action@master
-      #with:
-        #image-ref: 'andresatl/finalat-devsecops:latest'
-        #ignore-unfixed: true 
-        #format: 'table'
         
-    #- name: Upload scan results
-      #uses: actions/upload-artifact@v2
-      #with:
-        #name: scan-results
-       # path: ${{ github.workspace }}/trivy-results
-        
-    #- name: Push Docker
-      #run: |
-        #docker push andresatl/finalat-devsecops:latest
 
         
