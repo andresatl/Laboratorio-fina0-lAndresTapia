@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netflixat
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: netflixat
+  template:
+    metadata:
+      labels:
+        app: netflixat
+    spec:
+      containers:
+      - name: netflixat
+        image: andresatl/finalat-devsecops:latest
+        ports:
+        - containerPort: 8081
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netflixat
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: netflixat
