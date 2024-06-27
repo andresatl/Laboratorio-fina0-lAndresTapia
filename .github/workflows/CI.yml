@@ -96,7 +96,7 @@ jobs:
         format: 'HTML'
         out: 'reports'
         args: >
-          --failOnCVSS 11
+          --failOnCVSS 10
           --enableRetired
      
     - name: Upload Test result
@@ -135,7 +135,12 @@ jobs:
         pcc_console_url: https://us-east1.cloud.twistlock.com/us-1-113035073
         pcc_user: ${{ secrets.pcc_user }}
         pcc_pass: ${{ secrets.pcc_pass }}
-        image_name: andresatl/pruebavul:latest      
+        image_name: andresatl/pruebavul:latest 
+
+    - name: Docker Push 
+      run: |
+        docker push andresatl/finalat-devsecops:latest
+
 
     #- name: Run Trivy vulnerability scanner
       #uses: aquasecurity/trivy-action@master
@@ -143,11 +148,18 @@ jobs:
         #image-ref: 'andresatl/pruebavul:latest'
         #ignore-unfixed: true 
         #format: 'table' 
-    
-    #- name: Docker Push 
-      #run: |
-        #docker push andresatl/finalat-devsecops:latest
+#-------------------- DAST------------------------------------------  
+  DAST:
+      needs: DockerBuild-SCAN
+      runs-on: ubuntu-latest
+      steps:
 
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Start Docker
+        run: |
+          docker run -d --name finalat-devsecops -p 8081:80 andresatl/finalat-devsecops:latest
 #-------------------- Docker Scan ------------------------------------------
 
   #DockerScan:
