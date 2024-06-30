@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: netflix-app
-        image: finalat-devsecops:latest
+        image: andresatl/finalat-devsecops:latest
         ports:
         - containerPort: 80
