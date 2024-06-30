@@ -163,13 +163,31 @@ jobs:
     needs: DeployMiniKube
     runs-on: self-hosted
     steps:
+
+      - name: Start OWASP ZAP
+        run: |
+          docker run -u zap -p 8080:8080 -i owasp/zap2docker-stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
+      
+      - name: Wait for OWASP ZAP to Start
+        run: sleep 30 
+
       - name: ZAP Scan
-        uses: zaproxy/action-baseline@v0.12.0
-        with:
-          target: http://127.0.0.1:64530
-          allow_issue_writing: false
-          artifact_name: 'Zap Report'
-          fail_action: false #Break Pipeline
+        run: |
+          curl -X POST http://localhost:8080/JSON/ascan/action/scan/ \
+            -d "url=http://http://192.168.49.2:30007" \
+            -d "recurse=true" \
+            -d "inScopeOnly=false" \
+            -d "scanPolicyName=Default Policy"
+            
+      - name: Wait for ZAP Scan to Complete
+        run: sleep 60  # Adjust based on the expected scan duration
+
+      - name: Get ZAP Scan Results
+        run: |
+          curl -X GET http://localhost:8080/JSON/ascan/view/status/
+          # Add more commands to fetch and process results as needed
+
+          
 
         
 
