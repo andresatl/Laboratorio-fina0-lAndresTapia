@@ -159,17 +159,17 @@ jobs:
             
 #-------------------- DAST------------------------------------------  
 
-  #DAST:
-    #needs: DeployMiniKube
-    #runs-on: self-hosted
-    #steps:
-      #- name: ZAP Scan
-        #uses: zaproxy/action-baseline@v0.12.0
-        #with:
-          #target: http://localhost:8081
-          #allow_issue_writing: false
-          #artifact_name: 'Zap Report'
-          #fail_action: true #Break Pipeline
+  DAST:
+    needs: DeployMiniKube
+    runs-on: self-hosted
+    steps:
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: http://127.0.0.1:64530
+          allow_issue_writing: false
+          artifact_name: 'Zap Report'
+          fail_action: false #Break Pipeline
 
         
 
