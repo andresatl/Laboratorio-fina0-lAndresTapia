@@ -28,8 +28,8 @@ metadata:
   labels:
     app: netflixat
 spec:
-  ports:
   type: NodePort
+  ports:
   - port: 80
     targetPort: 80
     nodePort: 30007
