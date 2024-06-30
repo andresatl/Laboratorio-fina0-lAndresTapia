@@ -156,9 +156,10 @@ jobs:
         - name: Despliegue local
           run: |
             kubectl apply -f deploy.yaml
-        - name: Despliegue local
+        - name: Inciar serciso
           run: |
             minikube service netflixat SERVICE
+            kubectl wait --for=condition=ready pod -l app=netflixat --timeout=300s
             
             
 #-------------------- DAST------------------------------------------  
