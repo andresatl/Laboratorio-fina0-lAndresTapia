@@ -185,7 +185,7 @@ jobs:
           #docker run --rm -u zap -p 8080:8080 -i ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
 
     - name: Wait for ZAP to start
-      run: sleep 30s  # Adjust sleep time as needed
+      run: sleep 15  # Adjust sleep time as needed
 
     - name: ZAP Scan
       uses: zaproxy/action-baseline@v0.12.0
