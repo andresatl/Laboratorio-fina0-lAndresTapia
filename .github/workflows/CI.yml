@@ -189,8 +189,9 @@ jobs:
 
     - name: Run ZAP Scan
       run: |
-          service_url=$(echo http://$(echo ${{ steps.minikube-ip.outputs.ip }}):$(kubectl get service -l app=netflixat -o jsonpath='{.items[0].spec.ports[0].nodePort}'))
-          echo "Service URL: $service_url"
+          minikube_ip=$(echo ${{ steps.minikube-ip.outputs.ip }})
+          node_port=$(kubectl get service -l app=netflixat -o jsonpath='{.items[0].spec.ports[0].nodePort}')
+          echo "http://${minikube_ip}:${node_port}"  # Output the constructed service URL
           curl -X POST http://localhost:8080/JSON/ascan/action/scan/ \
             -d "url=$service_url" \
             -d "recurse=true" \
