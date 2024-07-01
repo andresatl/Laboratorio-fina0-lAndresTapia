@@ -179,13 +179,10 @@ jobs:
       id: minikube-ip
       run: echo "::set-output name=ip::$(minikube ip)"
 
-    #- name: Start OWASP ZAP
-      #run: |
-          #docker pull ghcr.io/zaproxy/zaproxy:stable
-          #docker run -u zap -p 8080:8080 -d ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
-   
-    - name: Wait for ZAP to Start
-      run: sleep 30  # Adjust as needed
+    - name: Start OWASP ZAP
+      run: |
+          docker pull ghcr.io/zaproxy/zaproxy:stable
+          docker run --rm -u zap -p 8080:8080 -i ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
 
     #- name: Get Service URL
       #id: service-url
@@ -203,7 +200,8 @@ jobs:
     - name: Run ZAP Active Scan
       run: |
           $service_url="http://127.0.0.1:61307"
-          docker run ghcr.io/zaproxy/zaproxy:stable --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} active-scan --context-name netflixat --url $service_url
+          docker exec $(docker ps -q -f ancestor=ghcr.io/zaproxy/zaproxy:stable) zap-cli --zap-url http://localhost:8080 -p 8080 active-scan --context-name netflixat --url $service_url
+
 
     - name: Get ZAP Scan Results
       run: |
