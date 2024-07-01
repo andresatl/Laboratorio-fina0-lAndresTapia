@@ -147,7 +147,7 @@ jobs:
         #ignore-unfixed: true 
         #format: 'table' 
 #-------------------- DEPLOY------------------------------------------  
-  DeployMiniKube:
+  Deploy:
       needs: DockerBuild-SCAN
       runs-on: self-hosted
       steps:
@@ -155,32 +155,33 @@ jobs:
           uses: actions/checkout@v4
         - name: Despliegue local
           run: |
-            kubectl apply -f deploy.yaml
+            kubectl apply -f ./Kubernetes/deployment.yml
             
-        - name: Get pods
-          run: |
+        #- name: Get pods
+          #run: |
             #minikube service netflixat SERVICE
-            kubectl get pods --all-namespaces  # Verify deployment
+            #kubectl get pods --all-namespaces  # Verify deployment
          
-        - name: Wait for Services to be Ready
-          run: |
+        #- name: Wait for Services to be Ready
+          #run: |
             # Replace 'netflixat' with your service name
-            kubectl wait --for=condition=ready pod -l app=netflixat --timeout=300s
+            #kubectl wait --for=condition=ready pod -l app=netflixat --timeout=300s
             
             
 #-------------------- DAST------------------------------------------  
 
   DAST:
-    needs: DeployMiniKube
+    needs: Deploy
     runs-on: self-hosted
     steps:
 
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Get Minikube IP
-      id: minikube-ip
-      run: echo "::set-output name=ip::$(minikube ip)"
+    - name: Start Application
+      run: |
+        docker run -d --name netflixat -p 8080:80 andresatl/finalat-devsecops:latest
+        sleep 15 # Give the application some time to start
 
     #- name: Start OWASP ZAP
       #run: |
@@ -195,8 +196,7 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
-        target: 'http://127.0.0.1:65011'
-        zap-baseline-url: 'http://localhost:8080'
+        target: 'http://localhost:8080'
         rules_file_name: 'zap-rules.tsv'
         cmd_options: '-a'
         allow_issue_writing: false
