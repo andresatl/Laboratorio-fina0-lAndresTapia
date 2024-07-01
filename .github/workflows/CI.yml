@@ -202,7 +202,7 @@ jobs:
 
     - name: Run ZAP Active Scan
       run: |
-           Run ZAP Active Scan
+          Run ZAP Active Scan
           service_url="http://127.0.0.1:59793"
           docker run ghcr.io/zaproxy/zaproxy:stable --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} active-scan --context-name netflixat --url http://127.0.0.1:59793
 
