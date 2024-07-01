@@ -172,7 +172,7 @@ jobs:
 
   DAST:
     needs: Deploy
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
 
     - name: Checkout code
@@ -181,7 +181,6 @@ jobs:
     - name: Start Application
       run: |
         docker run -d --name netflixat -p 8080:80 andresatl/finalat-devsecops:latest
-        sleep 15 # Give the application some time to start
 
     #- name: Start OWASP ZAP
       #run: |
