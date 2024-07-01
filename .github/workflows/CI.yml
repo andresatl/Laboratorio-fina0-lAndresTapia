@@ -187,24 +187,24 @@ jobs:
     - name: Wait for ZAP to Start
       run: sleep 30  # Adjust as needed
 
-    - name: Get Service URL
-      id: service-url
-      run: |
+    #- name: Get Service URL
+      #id: service-url
+      #run: |
         # Use Minikube tunnel to get service URL
-        service_url=$(minikube service netflixat --url)
-        echo "::set-output name=url::$service_url"
+        #service_url=$(minikube service netflixat --url)
+        #echo "::set-output name=url::$service_url"
 
     - name: Run ZAP Spider
       run: |
           # Retrieve Minikube service URL and run ZAP Spider scan
-          service_url="${{ steps.service-url.outputs.url }}"
-          docker run ghcr.io/zaproxy/zaproxy:stable zap-cli --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} spider --context-name netflixat --url $service_url
+          service_url="http://127.0.0.1:59793"
+          docker run ghcr.io/zaproxy/zaproxy:stable zap-cli --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} spider --context-name netflixat --url http://127.0.0.1:59793
 
     - name: Run ZAP Active Scan
       run: |
           # Run ZAP Active Scan
-          service_url="${{ steps.service-url.outputs.url }}"
-          docker run ghcr.io/zaproxy/zaproxy:stable --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} active-scan --context-name netflixat --url $service_url
+          service_url="http://127.0.0.1:59793"
+          docker run ghcr.io/zaproxy/zaproxy:stable --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} active-scan --context-name netflixat --url http://127.0.0.1:59793
 
     - name: Get ZAP Scan Results
       run: |
