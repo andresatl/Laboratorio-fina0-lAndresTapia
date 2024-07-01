@@ -179,58 +179,30 @@ jobs:
       id: minikube-ip
       run: echo "::set-output name=ip::$(minikube ip)"
 
-    - name: Start OWASP ZAP
-      run: |
-          docker pull ghcr.io/zaproxy/zaproxy:stable
-          docker run --rm -u zap -p 8080:8080 -i ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
+    #- name: Start OWASP ZAP
+      #run: |
+          #ocker pull ghcr.io/zaproxy/zaproxy:stable
+          #docker run --rm -u zap -p 8080:8080 -i ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
 
     - name: Wait for ZAP to start
       run: sleep 30s  # Adjust sleep time as needed
 
-    #- name: Get Service URL
-      #id: service-url
-      #run: |
-        # Use Minikube tunnel to get service URL
-        #service_url=$(minikube service netflixat --url)
-        #echo "::set-output name=url::$service_url"
-
-    #- name: Run ZAP Spider
-      #run: |
-          # Retrieve Minikube service URL and run ZAP Spider scan
-          #$service_url="http://127.0.0.1:59793"
-          #docker run ghcr.io/zaproxy/zaproxy:stable zap-cli --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} spider --context-name netflixat --url $service_url
-
-    - name: Run ZAP Active Scan
-      run: |
-        $service_url="http://127.0.0.1:61307"
-        docker exec $(docker ps -q -f ancestor=ghcr.io/zaproxy/zaproxy:stable) zap-cli --zap-url http://localhost:8080 -p 8080 active-scan --context-name netflixat --url $service_url
-
-
-    - name: Get ZAP Scan Results
-      run: |
-        zap-cli --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} report --output-format json
+    - name: ZAP Scan
+      uses: zaproxy/action-baseline@v0.12.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
+        target: 'http://127.0.0.1:61307'
+        zap-baseline-url: http://localhost:8080
+        rules_file_name: '.zap/rules.tsv'
+        cmd_options: '-a'
+        allow_issue_writing: false
 
     - name: Upload ZAP Report
       uses: actions/upload-artifact@v2
       with:
         name: zap-report
-        path: zap-report.json
-
-    #- name: ZAP Scan
-      #uses: zaproxy/action-baseline@v0.12.0
-      #with:
-        #token: ${{ secrets.GITHUB_TOKEN }}
-        #docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
-        #target: 'http://192.168.49.2:30007'
-        #rules_file_name: '.zap/rules.tsv'
-        #cmd_options: '-a'
-        #allow_issue_writing: false
-
-    #- name: Upload ZAP Report
-      #uses: actions/upload-artifact@v2
-      #with:
-        #name: zap-report
-        #path: zap_report.html
+        path: zap_report.html
           
 
         
