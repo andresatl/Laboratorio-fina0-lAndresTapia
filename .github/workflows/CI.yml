@@ -182,7 +182,7 @@ jobs:
     - name: Get Service NodePort
       id: service-nodeport
       run: |
-          node_port=$(kubectl get service -l app=netflixat -o jsonpath='{.items[0].spec.ports[0].nodePort}')
+          node_port=$(kubectl get service netflixat -o jsonpath='{.items[0].spec.ports[0].nodePort}')
           echo "::set-output name=nodeport::$node_port"
 
     - name: Start OWASP ZAP
