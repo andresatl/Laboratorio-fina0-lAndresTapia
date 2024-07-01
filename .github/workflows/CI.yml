@@ -179,10 +179,10 @@ jobs:
       id: minikube-ip
       run: echo "::set-output name=ip::$(minikube ip)"
 
-    - name: Start OWASP ZAP
-      run: |
-          docker pull ghcr.io/zaproxy/zaproxy:stable
-          docker run -u zap -p 8080:8080 -d ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
+    #- name: Start OWASP ZAP
+      #run: |
+          #docker pull ghcr.io/zaproxy/zaproxy:stable
+          #docker run -u zap -p 8080:8080 -d ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
    
     - name: Wait for ZAP to Start
       run: sleep 30  # Adjust as needed
