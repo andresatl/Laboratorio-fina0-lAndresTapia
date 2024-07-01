@@ -183,18 +183,22 @@ jobs:
     - name: Wait for ZAP to Start
       run: sleep 30  # Adjust as needed
 
-    - name: Get Service URL
-      id: service-url
-      run: |
-        # Replace with commands to get the service URL of your application
-        # Example for Kubernetes service URL retrieval
-        service_url=$(kubectl get service -l app=netflixat -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')
-        echo "::set-output name=url::$service_url"
+    - name: Get Minikube IP
+      id: minikube-ip
+      run: echo "::set-output name=ip::$(minikube ip)"
 
-    - name: Run ZAP Spider
+    - name: Run ZAP Scan
       run: |
-        service_url="${{ steps.service-url.outputs.url }}"
-        zap-cli --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} spider --context-name netflixat --url $service_url
+          service_url=$(echo http://$(echo ${{ steps.minikube-ip.outputs.ip }}):$(kubectl get service -l app=netflixat -o jsonpath='{.items[0].spec.ports[0].nodePort}'))
+          echo "Service URL: $service_url"
+          curl -X POST http://localhost:8080/JSON/ascan/action/scan/ \
+            -d "url=$service_url" \
+            -d "recurse=true" \
+            -d "inScopeOnly=false" \
+            -d "scanPolicyName=Default Policy"
+
+    - name: Wait for ZAP Scan to Complete
+      run: sleep 60  # Adjust based on scan duration
 
     - name: Run ZAP Active Scan
       run: |
@@ -204,9 +208,6 @@ jobs:
     - name: Get ZAP Scan Results
       run: |
         zap-cli --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} report --output-format json
-
-    - name: Stop OWASP ZAP
-      run: docker stop $(docker ps -q --filter ancestor=owasp/zap2docker-stable)
 
     - name: Upload ZAP Report
       uses: actions/upload-artifact@v2
