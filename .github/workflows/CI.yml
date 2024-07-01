@@ -179,12 +179,6 @@ jobs:
       id: minikube-ip
       run: echo "::set-output name=ip::$(minikube ip)"
 
-    - name: Get Service NodePort
-      id: service-nodeport
-      run: |
-          node_port=$(kubectl get service netflixat -o jsonpath='{.items[0].spec.ports[0].nodePort}')
-          echo "::set-output name=nodeport::$node_port"
-
     - name: Start OWASP ZAP
       run: |
           docker pull ghcr.io/zaproxy/zaproxy:stable
@@ -204,13 +198,13 @@ jobs:
       run: |
           # Retrieve Minikube service URL and run ZAP Spider scan
           service_url="${{ steps.service-url.outputs.url }}"
-          docker run owasp/zap2docker-stable zap-cli --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} spider --context-name netflixat --url $service_url
+          docker run ghcr.io/zaproxy/zaproxy:stable zap-cli --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} spider --context-name netflixat --url $service_url
 
     - name: Run ZAP Active Scan
       run: |
           # Run ZAP Active Scan
           service_url="${{ steps.service-url.outputs.url }}"
-          docker run owasp/zap2docker-stable zap-cli --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} active-scan --context-name netflixat --url $service_url
+          docker run ghcr.io/zaproxy/zaproxy:stable --zap-url http://localhost:8080 --api-key ${{ secrets.ZAP_API_KEY }} active-scan --context-name netflixat --url $service_url
 
     - name: Get ZAP Scan Results
       run: |
