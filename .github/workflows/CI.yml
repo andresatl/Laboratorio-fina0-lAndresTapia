@@ -184,6 +184,9 @@ jobs:
           docker pull ghcr.io/zaproxy/zaproxy:stable
           docker run --rm -u zap -p 8080:8080 -i ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
 
+    - name: Wait for ZAP to start
+      run: sleep 30s  # Adjust sleep time as needed
+
     #- name: Get Service URL
       #id: service-url
       #run: |
@@ -199,8 +202,8 @@ jobs:
 
     - name: Run ZAP Active Scan
       run: |
-          $service_url="http://127.0.0.1:61307"
-          docker exec $(docker ps -q -f ancestor=ghcr.io/zaproxy/zaproxy:stable) zap-cli --zap-url http://localhost:8080 -p 8080 active-scan --context-name netflixat --url $service_url
+        $service_url="http://127.0.0.1:61307"
+        docker exec $(docker ps -q -f ancestor=ghcr.io/zaproxy/zaproxy:stable) zap-cli --zap-url http://localhost:8080 -p 8080 active-scan --context-name netflixat --url $service_url
 
 
     - name: Get ZAP Scan Results
