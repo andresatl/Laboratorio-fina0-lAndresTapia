@@ -1,20 +1,34 @@
-FROM node:16.17.0-alpine as builder
-WORKDIR /app
-COPY ./package.json .
-COPY ./yarn.lock .
-RUN yarn install
-COPY . .
-ARG TMDB_V3_API_KEY
-ENV VITE_APP_TMDB_V3_API_KEY=${TMDB_V3_API_KEY}
-ENV VITE_APP_API_ENDPOINT_URL="https://api.themoviedb.org/3"
-RUN yarn build
+FROM python:3.11.7
 
-FROM nginx:stable-alpine
-WORKDIR /usr/share/nginx/html
-RUN rm -rf ./*
-COPY --from=builder /app/dist .
-EXPOSE 80
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+RUN apt-get update && apt-get -f install && pip install --upgrade pip
+RUN apt-get install -y cron
+
+COPY config/cron/send_report /etc/cron.d/report_mails
+RUN chmod a+x /etc/cron.d/report_mails
+
+COPY . /app/
+WORKDIR /app
+
+ENTRYPOINT [ "/app/run.sh"]
+
+
+#FROM node:16.17.0-alpine as builder
+#WORKDIR /app
+#COPY ./package.json .
+#COPY ./yarn.lock .
+#RUN yarn install
+#COPY . .
+#ARG TMDB_V3_API_KEY
+#ENV VITE_APP_TMDB_V3_API_KEY=${TMDB_V3_API_KEY}
+#ENV VITE_APP_API_ENDPOINT_URL="https://api.themoviedb.org/3"
+#RUN yarn build
+
+#FROM nginx:stable-alpine
+#WORKDIR /usr/share/nginx/html
+#RUN rm -rf ./*
+#COPY --from=builder /app/dist .
+#EXPOSE 80
+#ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
 
 #IMAGEN CON VULNERABILIDADES
