@@ -3,13 +3,13 @@ FROM python:3.11.7
 RUN apt-get update && apt-get -f install && pip install --upgrade pip
 RUN apt-get install -y cron
 
-COPY config/cron/send_report /etc/cron.d/report_mails
-RUN chmod a+x /etc/cron.d/report_mails
+#COPY config/cron/send_report /etc/cron.d/report_mails
+#RUN chmod a+x /etc/cron.d/report_mails
 
-COPY . /app/
-WORKDIR /app
+#COPY . /app/
+#WORKDIR /app
 
-ENTRYPOINT [ "/app/run.sh"]
+#ENTRYPOINT [ "/app/run.sh"]
 
 
 #FROM node:16.17.0-alpine as builder
