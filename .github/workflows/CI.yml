@@ -48,7 +48,7 @@ jobs:
     
 
     - name: Run ESLint to detect reduxStorage usage
-      run: npx eslint . --ext .ts  
+      run: npx eslint . --ext .ts --format json --output-file eslint-report.json  
 
     - name: Build
       run: npm run build
@@ -64,6 +64,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
         SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+
+      with:
+        args: >
+          -Dsonar.eslint.reportPaths=eslint-report.json
         
     - name: SonarQube Quality Gate Check
       env:
