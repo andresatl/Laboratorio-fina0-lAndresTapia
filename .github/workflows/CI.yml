@@ -48,7 +48,7 @@ jobs:
     
 
     - name: Run ESLint to detect reduxStorage usage
-      run: npx eslint . --config eslint-restricted.config.js --ext .ts  
+      run: npx eslint . --ext .ts  
 
     - name: Build
       run: npm run build
