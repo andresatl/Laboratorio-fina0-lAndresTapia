@@ -41,8 +41,11 @@ jobs:
       with:
         node-version: '16'
 
-    - name: Install depencies
-      run: npm install
+    - name: Install dependencies
+      run: |
+        npm install
+        npm install --save-dev eslint @eslint/js @typescript-eslint/parser typescript-eslint
+    
 
     - name: Run ESLint to detect reduxStorage usage
       run: npx eslint . --config eslint-restricted.config.js --ext .ts  
