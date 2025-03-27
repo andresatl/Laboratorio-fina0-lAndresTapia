@@ -90,7 +90,7 @@ jobs:
     - name: Install depencies
       run: |
         npm install
-        yarn install
+        #yarn install
 
     - name: Build
       run: npm run build
