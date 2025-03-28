@@ -47,8 +47,8 @@ jobs:
         #npm install --save-dev eslint @eslint/js @typescript-eslint/parser typescript-eslint
     
 
-    #- name: Run ESLint to detect reduxStorage usage
-      #run: npx eslint . --ext .ts --format json --output-file eslint-report.json  
+    - name: Run ESLint to detect reduxStorage usage
+      run: npx eslint . --ext .ts --format json --output-file eslint-report.json  
 
     - name: Build
       run: npm run build
